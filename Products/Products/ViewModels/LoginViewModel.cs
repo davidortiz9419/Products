@@ -2,11 +2,10 @@
 {
     using GalaSoft.MvvmLight.Command;
     using Services;
-    using System;
     using System.ComponentModel;
     using System.Windows.Input;
-    using Xamarin.Forms;
     using Views;
+    using Xamarin.Forms;
 
     public class LoginViewModel : INotifyPropertyChanged
     {
