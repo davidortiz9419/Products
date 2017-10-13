@@ -2,9 +2,9 @@
 {
     using Domain;
     using Models;
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
     using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
@@ -68,35 +68,39 @@
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutCategory(int id, Category category)
         {
-            if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
-            }
-
-            if (id != category.CategoryId)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(category).State = EntityState.Modified;
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CategoryExists(id))
+                if (!ModelState.IsValid)
                 {
-                    return NotFound();
+                    return BadRequest(ModelState);
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return StatusCode(HttpStatusCode.NoContent);
+                if (id != category.CategoryId)
+                {
+                    return BadRequest();
+                }
+
+                db.Entry(category).State = EntityState.Modified;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null &&
+                        ex.InnerException.InnerException != null &&
+                        ex.InnerException.InnerException.Message.Contains("Index"))
+                    {
+                        return BadRequest("There are a record with the same description.");
+                    }
+                    else
+                    {
+                        return BadRequest(ex.Message);
+                    }
+                }
+
+                return StatusCode(HttpStatusCode.NoContent);
+            }
         }
 
         // POST: api/Categories
@@ -109,7 +113,23 @@
             }
 
             db.Categories.Add(category);
-            await db.SaveChangesAsync();
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null &&
+                    ex.InnerException.InnerException != null &&
+                    ex.InnerException.InnerException.Message.Contains("Index"))
+                {
+                    return BadRequest("There are a record with the same description.");
+                }
+                else
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
 
             return CreatedAtRoute("DefaultApi", new { id = category.CategoryId }, category);
         }
@@ -125,7 +145,23 @@
             }
 
             db.Categories.Remove(category);
-            await db.SaveChangesAsync();
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null &&
+                    ex.InnerException.InnerException != null &&
+                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                {
+                    return BadRequest("You can't delete this record, becase it has related record.");
+                }
+                else
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
 
             return Ok(category);
         }

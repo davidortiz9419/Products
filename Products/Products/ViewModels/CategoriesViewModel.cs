@@ -6,6 +6,10 @@
     using Services;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows.Input;
+    using GalaSoft.MvvmLight.Command;
+    using System;
+    using System.Threading.Tasks;
 
     public class CategoriesViewModel : INotifyPropertyChanged
     {
@@ -19,10 +23,30 @@
         #endregion
 
         #region Attributes
+        bool _isRefreshing;
+        List<Category> categories;
         ObservableCollection<Category> _categories;
         #endregion
 
         #region Properties
+        public bool IsRefreshing
+        {
+            get
+            {
+                return _isRefreshing;
+            }
+            set
+            {
+                if(_isRefreshing != value)
+                {
+                    _isRefreshing = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(IsRefreshing)));
+                }
+            }
+        }
+
         public ObservableCollection<Category> Categories
         {
             get
@@ -45,23 +69,85 @@
         #region Constructors
         public CategoriesViewModel()
         {
+            instance = this;
+
             apiService = new ApiService();
             dialogService = new DialogService();
+
             LoadCategories();
         }
         #endregion
 
-        #region Methods
-        async void LoadCategories()
+        #region Singleton
+        static CategoriesViewModel instance;
+
+        public static CategoriesViewModel GetInstance()
         {
+            if(instance == null)
+            {
+                return new CategoriesViewModel();
+            }
+
+            return instance;
+        }
+        #endregion
+
+        #region Methods
+        public void Add(Category category)
+        {
+            IsRefreshing = true;
+            categories.Add(category);
+            Categories = new ObservableCollection<Category>(categories.OrderBy(c => c.Description));
+            IsRefreshing = false;
+        }
+
+        public async Task Delete(Category category)
+        {
+            IsRefreshing = true;
             var connection = await apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                
+                IsRefreshing = false;
                 await dialogService.ShowMessage(
                     "Error",
-                    connection.Message,
-                    "Accept");
+                    connection.Message);
+                return;
+            }
+
+            var mainViewModel = MainViewModel.GetInstance();
+
+            var response = await apiService.Delete(
+                "http://apiproducts.azurewebsites.net",
+                "/api",
+                "/Categories",
+                mainViewModel.Token.TokenType,
+                mainViewModel.Token.AccessToken,
+                category);
+
+            if (!response.IsSuccess)
+            {
+                IsRefreshing = false;
+                await dialogService.ShowMessage(
+                    "Error",
+                    response.Message);
+                return;
+            }
+
+            categories.Remove(category);
+            Categories = new ObservableCollection<Category>(categories.OrderBy(c => c.Description));
+            IsRefreshing = false;
+        }
+
+        async void LoadCategories()
+        {
+            IsRefreshing = true;
+            var connection = await apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                IsRefreshing = false;
+                await dialogService.ShowMessage(
+                    "Error",
+                    connection.Message);
                 return;
             }
 
@@ -75,16 +161,32 @@
 
             if (!response.IsSuccess)
             {
+                IsRefreshing = false;
                 await dialogService.ShowMessage(
                     "Error",
-                    response.Message,
-                    "Accept");
+                    response.Message);
                 return;
             }
 
-            var categories = (List<Category>)response.Result;
+            categories = (List<Category>)response.Result;
             Categories = new ObservableCollection<Category>(categories.OrderBy(c => c.Description));
+            IsRefreshing = false;
         }
+
+        public void Update(Category category)
+        {
+            IsRefreshing = true;
+            var oldCategory = categories
+                .Where(c => c.CategoryId == category.CategoryId)
+                .FirstOrDefault();
+            oldCategory = category;
+            Categories = new ObservableCollection<Category>(categories.OrderBy(c => c.Description));
+            IsRefreshing = false;
+        }
+        #endregion
+
+        #region Commands
+        public ICommand RefreshCommand { get { return new RelayCommand(LoadCategories); }  }
         #endregion
     }
 }

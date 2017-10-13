@@ -22,7 +22,6 @@
         [Index("Product_Description_Index", IsUnique = true)]
         public string Description { get; set; }
 
-        [DataType(DataType.ImageUrl)]
         public string Image { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required.")]
@@ -33,7 +32,6 @@
         public bool IsActive { get; set; }
 
         [Display(Name = "Last Purchase")]
-        [DataType(DataType.Date)]
         public DateTime LastPurchase { get; set; }
 
         public double Stock { get; set; }

@@ -251,6 +251,13 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Products\aguardiente del valle sinazucar.png" />
+    <Content Include="Content\Products\apples.png" />
+    <Content Include="Content\Products\martillo.png" />
+    <Content Include="Content\Products\noimage.png" />
+    <Content Include="Content\Products\peras.png" />
+    <Content Include="Content\Products\ron-viejo-de-caldas-tradicional-750ml.png" />
+    <Content Include="Content\Products\uvas.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

@@ -22,7 +22,7 @@
                 HorizontalOptions="Center"
                 Margin="20"
                 Text="Products"
-                TextColor="{StaticResource TextColor}">
+                TextColor="#607D8B">
             </Label>
             <Grid
                 Margin="50,10">
@@ -33,8 +33,8 @@
                 <Label
                     Grid.Column="0"
                     Grid.Row="0"
-                    Text="Email:"
-                    TextColor="{StaticResource TextColor}"
+                    Text="Email"
+                    TextColor="{StaticResource FontColor}"
                     WidthRequest="100"
                     VerticalOptions="Center">
                 </Label>
@@ -48,8 +48,8 @@
                 <Label
                     Grid.Column="0"
                     Grid.Row="1"
-                    Text="Password:"
-                    TextColor="{StaticResource TextColor}"
+                    Text="Password"
+                    TextColor="{StaticResource FontColor}"
                     WidthRequest="100"
                     VerticalOptions="Center">
                 </Label>
@@ -66,7 +66,7 @@
                 Orientation="Horizontal">
                 <Label
                     Text="Rememberme "
-                    TextColor="{StaticResource TextColor}"
+                    TextColor="{StaticResource FontColor}"
                     VerticalOptions="Center">
                 </Label>
                 <Switch
@@ -76,7 +76,7 @@
             <Label
                 HorizontalOptions="Center"
                 Text="Forgot your Password?"
-                TextColor="{StaticResource FontColor}">
+                TextColor="{StaticResource MainColor}">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer
                         Command="{Binding RecoveryPasswordCommand}">
@@ -89,9 +89,9 @@
             <StackLayout
                 Margin="50,0">
                 <Button
-                    Command="{Binding LoginCommand}"
-                    BackgroundColor="{StaticResource FontColor}"
+                    BackgroundColor="{StaticResource MainColor}"
                     BorderRadius="23"
+                    Command="{Binding LoginCommand}"
                     FontAttributes="Bold"
                     HeightRequest="46"
                     IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
@@ -99,9 +99,9 @@
                     TextColor="{StaticResource BackgroundColor}">
                 </Button>
                 <Button
-                    Command="{Binding RegisterNewUserCommand}"
-                    BackgroundColor="{StaticResource AccentColor2}"
+                    BackgroundColor="#9C27B0"
                     BorderRadius="23"
+                    Command="{Binding RegisterNewUserCommand}"
                     FontAttributes="Bold"
                     HeightRequest="46"
                     IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
@@ -109,9 +109,9 @@
                     TextColor="{StaticResource BackgroundColor}">
                 </Button>
                 <Button
-                    Command="{Binding LoginWithFacebookCommand}"
                     BackgroundColor="{StaticResource AccentColor}"
                     BorderRadius="23"
+                    Command="{Binding LoginWithFacebookCommand}"
                     FontAttributes="Bold"
                     HeightRequest="46"
                     IsEnabled="{Binding IsEnabled, Mode=TwoWay}"

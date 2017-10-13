@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Products.Views.NewCategoryView"
+    Title="New Category"
+    BackgroundColor="{StaticResource BackgroundColor}"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.Content>
+        <ScrollView
+            BindingContext="{Binding NewCategory}">
+            <StackLayout
+                Padding="10">
+                <Label
+                    FontAttributes="Bold"
+                    Text="Category"
+                    TextColor="{StaticResource FontColor}">
+                </Label>
+                <Entry
+                    Placeholder="Enter category description..."
+                    Text="{Binding Description, Mode=TwoWay}"
+                    HorizontalOptions="FillAndExpand">
+                </Entry>
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                    VerticalOptions="CenterAndExpand">
+                </ActivityIndicator>
+                <Button
+                    BackgroundColor="{StaticResource MainColor}"
+                    BorderRadius="23"
+                    Command="{Binding SaveCommand}"
+                    FontAttributes="Bold"
+                    HeightRequest="46"
+                    IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                    Margin="50,0"
+                    Text="Save"
+                    TextColor="{StaticResource BackgroundColor}"
+                    VerticalOptions="EndAndExpand">
+                </Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

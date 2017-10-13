@@ -34,7 +34,7 @@
                                         Grid.Column="1"
                                         HorizontalOptions="FillAndExpand"
                                         Text="{Binding Description}"
-                                        TextColor="{Binding TextColor}"
+                                        TextColor="{Binding FontColor}"
                                         VerticalOptions="Center">
                                     </Label>
                                 </Grid>

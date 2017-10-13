@@ -6,38 +6,60 @@
     Title="Categories"
     BackgroundColor="{StaticResource BackgroundColor}"
     BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem 
+            Command="{Binding NewCategoryCommand}"
+            Icon="ic_action_add_circle">
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout
-                BindingContext="{Binding Categories}"
-                Padding="5">
-                <ListView
-                    HasUnevenRows="True"
-                    ItemsSource="{Binding Categories}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label
-                                        FontSize="Large"
-                                        Grid.Column="0"
-                                        HorizontalOptions="FillAndExpand"
-                                        Text="{Binding Description}"
-                                        TextColor="{StaticResource TextColor}"
-                                        VerticalOptions="Center">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding SelectCategoryCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackLayout>
-        </ScrollView>
+        <StackLayout
+            BindingContext="{Binding Categories}"
+            Padding="5">
+            <ListView
+                HasUnevenRows="True"
+                IsPullToRefreshEnabled="True"
+                IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                ItemsSource="{Binding Categories}"
+                RefreshCommand="{Binding RefreshCommand}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem
+                                    Command="{ Binding EditCommand}"
+                                    Text="Edit">
+                                </MenuItem>
+                                <MenuItem
+                                    Command="{Binding DeleteCommand}"
+                                    IsDestructive="True"
+                                    Text="Delete">
+                                </MenuItem>
+                            </ViewCell.ContextActions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    FontSize="Large"
+                                    Grid.Column="0"
+                                    HorizontalOptions="FillAndExpand"
+                                    Text="{Binding Description}"
+                                    TextColor="{StaticResource FontColor}"
+                                    VerticalOptions="Center">
+                                </Label>
+                                <Image 
+                                    HorizontalOptions="End" 
+                                    Source="ic_chevron">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SelectCategoryCommand}"/>
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

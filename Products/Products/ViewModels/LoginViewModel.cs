@@ -4,8 +4,6 @@
     using Services;
     using System.ComponentModel;
     using System.Windows.Input;
-    using Views;
-    using Xamarin.Forms;
 
     public class LoginViewModel : INotifyPropertyChanged
     {
@@ -16,6 +14,7 @@
         #region Services
         ApiService apiService;
         DialogService dialogService;
+        NavigationService navigationService;
         #endregion
 
         #region Attributes
@@ -123,6 +122,10 @@
         {
             apiService = new ApiService();
             dialogService = new DialogService();
+            navigationService = new NavigationService();
+
+            Email = "juandavidortiz07@hotmail.com";
+            Password = "adm8020";
 
             IsEnabled = true;
             IsToggled = true;
@@ -138,8 +141,7 @@
             {
                 await dialogService.ShowMessage(
                     "Error",
-                    "You must enter an email.",
-                    "Accept");
+                    "You must enter an email.");
                 return;
             }
 
@@ -147,8 +149,7 @@
             {
                 await dialogService.ShowMessage(
                     "Error",
-                    "You must enter a password.",
-                    "Accept");
+                    "You must enter a password.");
                 return;
             }
 
@@ -162,8 +163,7 @@
                 IsEnabled = true;
                 await dialogService.ShowMessage(
                     "Error",
-                    connection.Message,
-                    "Accept");
+                    connection.Message);
                 return;
             }
 
@@ -178,8 +178,7 @@
                 IsEnabled = true;
                 await dialogService.ShowMessage(
                     "Error",
-                    "The service is not available, please try latter.",
-                    "Accept");
+                    "The service is not available, please try latter.");
                 Password = null;
                 return;
             }
@@ -190,8 +189,7 @@
                 IsEnabled = true;
                 await dialogService.ShowMessage(
                     "Error",
-                    response.ErrorDescription,
-                    "Accept");
+                    response.ErrorDescription);
                 Password = null;
                 return;
             }
@@ -199,7 +197,7 @@
             var mainViewModel = MainViewModel.GetInstance();
             mainViewModel.Token = response;
             mainViewModel.Categories = new CategoriesViewModel();
-            await Application.Current.MainPage.Navigation.PushAsync(new CategoriesView());
+            await navigationService.Navigate("CategoriesView");
 
             Email = null;
             Password = null;
