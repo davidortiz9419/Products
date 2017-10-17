@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
     using Xamarin.Forms;
+
     public class DialogService
     {
         public async Task ShowMessage(string title, string message)
@@ -19,6 +20,16 @@
                 message, 
                 "Yes", 
                 "No");
+        }
+
+        public async Task<string> ShowImageOptions()
+        {
+            return await Application.Current.MainPage.DisplayActionSheet(
+                "Where do you take the image?",
+                "Cancel",
+                null,
+                "From Gallery",
+                "From Camera");
         }
     }
 }

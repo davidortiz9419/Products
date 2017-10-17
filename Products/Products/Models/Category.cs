@@ -5,7 +5,6 @@
     using System.Collections.Generic;
     using System.Windows.Input;
     using ViewModels;
-    using System;
 
     public class Category
     {
@@ -58,7 +57,7 @@
         async void Edit()
         {
             MainViewModel.GetInstance().EditCategory = new EditCategoryViewModel(this);
-            await navigationService.Navigate("EditCategoryView");
+            await navigationService.NavigateOnMaster("EditCategoryView");
         }
 
         public ICommand SelectCategoryCommand { get { return new RelayCommand(SelectCategory); } }
@@ -66,10 +65,10 @@
         async void SelectCategory()
         {
             var mainViewModel = MainViewModel.GetInstance();
+            mainViewModel.Category = this;
             mainViewModel.Products = new ProductsViewModel(Products);
-            await navigationService.Navigate("ProductsView");
+            await navigationService.NavigateOnMaster("ProductsView");
         }
         #endregion
-
     }
 }

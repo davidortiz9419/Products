@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Products.Views.NewProductView"
+    Title="New Product"
+    BackgroundColor="{StaticResource BackgroundColor}"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.Content>
+        <ScrollView
+            BindingContext="{Binding NewProduct}">
+            <StackLayout
+                Padding="10">
+                <Label
+                    Text="Product"
+                    TextColor="{Binding FontColor}">
+                </Label>
+                <Entry
+                    Placeholder="Enter product description..."
+                    Text="{Binding Description, Mode=TwoWay}">
+                </Entry>
+
+                <Label
+                    Text="Price"
+                    TextColor="{Binding FontColor}">
+                </Label>
+                <Entry
+                    Keyboard="Numeric"
+                    Placeholder="Enter product price..."
+                    Text="{Binding Price, Mode=TwoWay}">
+                </Entry>
+                <StackLayout
+                    Orientation="Horizontal">
+                    <Label
+                        HorizontalOptions="StartAndExpand"
+                        Text="Is Active?"
+                        TextColor="{Binding FontColor}"
+                        VerticalOptions="Center">
+                    </Label>
+                    <Switch
+                        HorizontalOptions="End"
+                        IsToggled="{Binding IsToggled, Mode=TwoWay}"
+                        VerticalOptions="Center">
+                    </Switch>
+                </StackLayout>
+                <Label
+                    Text="Last purchase:"
+                    TextColor="{Binding FontColor}">
+                </Label>
+                <DatePicker
+                    Date="{Binding LastPurchase, Mode=TwoWay}">
+                </DatePicker>
+                <Label
+                    Text="Stock">
+                </Label>
+                <Entry
+                    Keyboard="Numeric"
+                    Placeholder="Enter product stock..."
+                    Text="{Binding Stock, Mode=TwoWay}"
+                    TextColor="{Binding FontColor}">
+                </Entry>
+                <Label
+                    Text="Remarks"
+                    TextColor="{StaticResource FontColor}">
+                </Label>
+                <Entry
+                    Text="{Binding Remarks, Mode=TwoWay}">
+                </Entry>
+                <Image
+                    HeightRequest="200"
+                    Source="{Binding ImageSource}"
+                    WidthRequest="200">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChangeImageCommand}"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                <Label
+                    FontSize="Small"
+                    HorizontalOptions="Center"
+                    Text="Tap on image to change it."
+                    TextColor="{StaticResource FontColor}">
+                </Label>
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                    VerticalOptions="CenterAndExpand">
+                </ActivityIndicator>
+                <Button
+                    BackgroundColor="{StaticResource AccentColor2}"
+                    BorderRadius="23"
+                    Command="{Binding SaveCommand}"
+                    FontAttributes="Bold"
+                    HeightRequest="46"
+                    IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                    Margin="50,0"
+                    Text="Save"
+                    TextColor="{StaticResource BackgroundColor}"
+                    VerticalOptions="EndAndExpand">
+                </Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

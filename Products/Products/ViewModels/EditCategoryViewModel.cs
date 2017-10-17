@@ -129,7 +129,7 @@
             var categoriesViewModel = CategoriesViewModel.GetInstance();
             categoriesViewModel.Update(category);
 
-            await navigationService.Back();
+            await navigationService.BackOnMaster();
 
             IsRunning = false;
             IsEnabled = true;

@@ -4,6 +4,7 @@
     using Services;
     using System.ComponentModel;
     using System.Windows.Input;
+    using System;
 
     public class LoginViewModel : INotifyPropertyChanged
     {
@@ -197,13 +198,21 @@
             var mainViewModel = MainViewModel.GetInstance();
             mainViewModel.Token = response;
             mainViewModel.Categories = new CategoriesViewModel();
-            await navigationService.Navigate("CategoriesView");
+            navigationService.SetMainPage("MasterView");
 
             Email = null;
             Password = null;
 
             IsRunning = false;
             IsEnabled = true;
+        }
+
+        public ICommand RegisterCommand { get { return new RelayCommand(Register); } }
+
+        async void Register()
+        {
+            MainViewModel.GetInstance().NewCustomer = new NewCustomerViewModel();
+            await navigationService.NavigateOnLogin("NewCustomerView");
         }
         #endregion
     }

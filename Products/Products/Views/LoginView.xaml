@@ -13,112 +13,125 @@
             Android="8"/>
     </ContentPage.Padding>
     <ContentPage.Content>
-        <StackLayout
-            BindingContext="{Binding Login}"
-            Spacing="16">
-            <Label
-                FontAttributes="Bold"
-                FontSize="Large"
-                HorizontalOptions="Center"
-                Margin="20"
-                Text="Products"
-                TextColor="#607D8B">
-            </Label>
-            <Grid
-                Margin="50,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <Label
-                    Grid.Column="0"
-                    Grid.Row="0"
-                    Text="Email"
-                    TextColor="{StaticResource FontColor}"
-                    WidthRequest="100"
-                    VerticalOptions="Center">
-                </Label>
-                <Entry
-                    Grid.Column="1"
-                    Grid.Row="0"
-                    Keyboard="Email"
-                    Placeholder="Enter your email..."
-                    Text="{Binding Email, Mode=TwoWay}">
-                </Entry>
-                <Label
-                    Grid.Column="0"
-                    Grid.Row="1"
-                    Text="Password"
-                    TextColor="{StaticResource FontColor}"
-                    WidthRequest="100"
-                    VerticalOptions="Center">
-                </Label>
-                <Entry
-                    Grid.Column="1"
-                    Grid.Row="1"
-                    IsPassword="True"
-                    Placeholder="Enter your password..."
-                    Text="{Binding Password, Mode=TwoWay}">
-                </Entry>
-            </Grid>
+        <ScrollView
+            BindingContext="{Binding Login}">
             <StackLayout
-                HorizontalOptions="End"
-                Orientation="Horizontal">
+                Spacing="16">
                 <Label
-                    Text="Rememberme "
-                    TextColor="{StaticResource FontColor}"
-                    VerticalOptions="Center">
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    HorizontalOptions="Center"
+                    Margin="20"
+                    Text="Products"
+                    TextColor="{StaticResource FontColor}">
                 </Label>
-                <Switch
-                    IsToggled="{Binding IsToggled, Mode=TwoWay}">
-                </Switch>
+                <Grid
+                    Margin="50,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        Text="Email"
+                        TextColor="{StaticResource FontColor}"
+                        WidthRequest="100"
+                        VerticalOptions="Center">
+                    </Label>
+                    <Entry
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        HorizontalOptions="FillAndExpand"
+                        Keyboard="Email"
+                        Placeholder="Enter your email..."
+                        Text="{Binding Email, Mode=TwoWay}"
+                        VerticalOptions="Center">
+                    </Entry>
+                </Grid>
+                <Grid
+                    Margin="50,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        Text="Password"
+                        TextColor="{StaticResource FontColor}"
+                        WidthRequest="100"
+                        VerticalOptions="Center">
+                    </Label>
+                    <Entry
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        HorizontalOptions="FillAndExpand"
+                        IsPassword="True"
+                        Placeholder="Enter your password..."
+                        Text="{Binding Password, Mode=TwoWay}"
+                        VerticalOptions="Center">
+                    </Entry>
+                </Grid>
+                <StackLayout
+                    HorizontalOptions="End"
+                    Orientation="Horizontal">
+                    <Label
+                        Text="Rememberme "
+                        TextColor="{StaticResource FontColor}"
+                        VerticalOptions="Center">
+                    </Label>
+                    <Switch
+                        IsToggled="{Binding IsToggled, Mode=TwoWay}">
+                    </Switch>
+                </StackLayout>
+                <Label
+                    HorizontalOptions="Center"
+                    Text="Forgot your Password?"
+                    TextColor="{StaticResource MainColor}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding RecoveryPasswordCommand}">
+                        </TapGestureRecognizer>
+                    </Label.GestureRecognizers>
+                </Label>
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning, Mode=TwoWay}">
+                </ActivityIndicator>
+                <StackLayout
+                    Margin="50,0">
+                    <Button
+                        BackgroundColor="{StaticResource AccentColor1}"
+                        BorderRadius="23"
+                        Command="{Binding LoginCommand}"
+                        FontAttributes="Bold"
+                        HeightRequest="46"
+                        IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                        Text="Login"
+                        TextColor="{StaticResource BackgroundColor}">
+                    </Button>
+                    <Button
+                        BackgroundColor="{StaticResource AccentColor2}"
+                        BorderRadius="23"
+                        Command="{Binding RegisterCommand}"
+                        FontAttributes="Bold"
+                        HeightRequest="46"
+                        IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                        Text="Register New User"
+                        TextColor="{StaticResource BackgroundColor}">
+                    </Button>
+                    <Button
+                        BackgroundColor="{StaticResource MainColor}"
+                        BorderRadius="23"
+                        Command="{Binding LoginWithFacebookCommand}"
+                        FontAttributes="Bold"
+                        HeightRequest="46"
+                        IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                        Text="Login With Facebook"
+                        TextColor="{StaticResource BackgroundColor}">
+                    </Button>
+                </StackLayout>
             </StackLayout>
-            <Label
-                HorizontalOptions="Center"
-                Text="Forgot your Password?"
-                TextColor="{StaticResource MainColor}">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer
-                        Command="{Binding RecoveryPasswordCommand}">
-                    </TapGestureRecognizer>
-                </Label.GestureRecognizers>
-            </Label>
-            <ActivityIndicator
-                IsRunning="{Binding IsRunning, Mode=TwoWay}">
-            </ActivityIndicator>
-            <StackLayout
-                Margin="50,0">
-                <Button
-                    BackgroundColor="{StaticResource MainColor}"
-                    BorderRadius="23"
-                    Command="{Binding LoginCommand}"
-                    FontAttributes="Bold"
-                    HeightRequest="46"
-                    IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
-                    Text="Login"
-                    TextColor="{StaticResource BackgroundColor}">
-                </Button>
-                <Button
-                    BackgroundColor="#9C27B0"
-                    BorderRadius="23"
-                    Command="{Binding RegisterNewUserCommand}"
-                    FontAttributes="Bold"
-                    HeightRequest="46"
-                    IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
-                    Text="Register"
-                    TextColor="{StaticResource BackgroundColor}">
-                </Button>
-                <Button
-                    BackgroundColor="{StaticResource AccentColor}"
-                    BorderRadius="23"
-                    Command="{Binding LoginWithFacebookCommand}"
-                    FontAttributes="Bold"
-                    HeightRequest="46"
-                    IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
-                    Text="Login With Facebook"
-                    TextColor="{StaticResource BackgroundColor}">
-                </Button>
-            </StackLayout>
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

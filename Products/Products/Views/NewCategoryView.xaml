@@ -26,7 +26,7 @@
                     VerticalOptions="CenterAndExpand">
                 </ActivityIndicator>
                 <Button
-                    BackgroundColor="{StaticResource MainColor}"
+                    BackgroundColor="{StaticResource AccentColor2}"
                     BorderRadius="23"
                     Command="{Binding SaveCommand}"
                     FontAttributes="Bold"

@@ -6,26 +6,63 @@
 
     public class NavigationService
     {
-        public async Task Navigate(string PageName)
+        public void SetMainPage(string pageName)
         {
-            switch (PageName)
+            switch (pageName)
             {
-                case "CategoriesView":
-                    await Application.Current.MainPage.Navigation.PushAsync(new CategoriesView());
+                case "LoginView":
+                    Application.Current.MainPage = new NavigationPage(new LoginView());
                     break;
-                case "EditCategoryView":
-                    await Application.Current.MainPage.Navigation.PushAsync(new EditCategoryView());
-                    break;
-                case "NewCategoryView":
-                    await Application.Current.MainPage.Navigation.PushAsync(new NewCategoryView());
-                    break;
-                case "ProductsView":
-                    await Application.Current.MainPage.Navigation.PushAsync(new ProductsView());
+                case "MasterView":
+                    Application.Current.MainPage = new MasterView();
                     break;
             }
         }
 
-        public async Task Back()
+        public async Task NavigateOnMaster(string pageName)
+        {
+            App.Master.IsPresented = false;
+
+            switch (pageName)
+            {
+                case "CategoriesView":
+                    await App.Navigator.PushAsync(new CategoriesView());
+                    break;
+                case "EditCategoryView":
+                    await App.Navigator.PushAsync(new EditCategoryView());
+                    break;
+                case "EditProductView":
+                    await App.Navigator.PushAsync(new EditProductView());
+                    break;
+                case "NewCategoryView":
+                    await App.Navigator.PushAsync(new NewCategoryView());
+                    break;
+                case "NewProductView":
+                    await App.Navigator.PushAsync(new NewProductView());
+                    break;
+                case "ProductsView":
+                    await App.Navigator.PushAsync(new ProductsView());
+                    break;
+            }
+        }
+
+        public async Task NavigateOnLogin(string pageName)
+        {
+            switch (pageName)
+            {
+                case "NewCustomerView":
+                    await Application.Current.MainPage.Navigation.PushAsync(
+                        new NewCustomerView());
+                    break;
+            }
+        }
+
+        public async Task BackOnMaster()
+        {
+            await App.Navigator.PopAsync();
+        }
+
+        public async Task BackOnLogin()
         {
             await Application.Current.MainPage.Navigation.PopAsync();
         }
