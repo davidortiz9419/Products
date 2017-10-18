@@ -8,17 +8,17 @@
     using System.Web.Mvc;
 
     [Authorize(Users = "juandavidortiz07@hotmail.com")]
-    public class CustomersController : Controller
+    public class UbicationsController : Controller
     {
         private DataContextLocal db = new DataContextLocal();
 
-        // GET: Customers
+        // GET: Ubications
         public async Task<ActionResult> Index()
         {
-            return View(await db.Customers.ToListAsync());
+            return View(await db.Ubications.ToListAsync());
         }
 
-        // GET: Customers/Details/5
+        // GET: Ubications/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -26,37 +26,38 @@
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var customer = await db.Customers.FindAsync(id);
-            if (customer == null)
+            var ubication = await db.Ubications.FindAsync(id);
+
+            if (ubication == null)
             {
                 return HttpNotFound();
             }
 
-            return View(customer);
+            return View(ubication);
         }
 
-        // GET: Customers/Create
+        // GET: Ubications/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Customers/Create
+        // POST: Ubications/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Customer customer)
+        public async Task<ActionResult> Create(Ubication ubication)
         {
             if (ModelState.IsValid)
             {
-                db.Customers.Add(customer);
+                db.Ubications.Add(ubication);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(customer);
+            return View(ubication);
         }
 
-        // GET: Customers/Edit/5
+        // GET: Ubications/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -64,28 +65,32 @@
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var customer = await db.Customers.FindAsync(id);
-            if (customer == null)
+            var ubication = await db.Ubications.FindAsync(id);
+
+            if (ubication == null)
             {
                 return HttpNotFound();
             }
-            return View(customer);
+
+            return View(ubication);
         }
 
+        // POST: Ubications/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Customer customer)
+        public async Task<ActionResult> Edit(Ubication ubication)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customer).State = EntityState.Modified;
+                db.Entry(ubication).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(customer);
+
+            return View(ubication);
         }
 
-        // GET: Customers/Delete/5
+        // GET: Ubications/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -93,22 +98,23 @@
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var customer = await db.Customers.FindAsync(id);
-            if (customer == null)
+            var ubication = await db.Ubications.FindAsync(id);
+
+            if (ubication == null)
             {
                 return HttpNotFound();
             }
 
-            return View(customer);
+            return View(ubication);
         }
 
-        // POST: Customers/Delete/5
+        // POST: Ubications/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            var customer = await db.Customers.FindAsync(id);
-            db.Customers.Remove(customer);
+            var ubication = await db.Ubications.FindAsync(id);
+            db.Ubications.Remove(ubication);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

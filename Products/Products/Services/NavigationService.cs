@@ -43,6 +43,9 @@
                 case "ProductsView":
                     await App.Navigator.PushAsync(new ProductsView());
                     break;
+                case "UbicationsView":
+                    await App.Navigator.PushAsync(new UbicationsView());
+                    break;
             }
         }
 

@@ -29,13 +29,17 @@
         #region Commands
         public ICommand NavigateCommand { get { return new RelayCommand(Navigate); } }
 
-        private void Navigate()
+        async void Navigate()
         {
             switch (PageName)
             {
                 case "LoginView":
                     MainViewModel.GetInstance().Login = new LoginViewModel();
                     navigationService.SetMainPage("LoginView");
+                    break;
+                case "UbicationsView":
+                    MainViewModel.GetInstance().Ubications = new UbicationsViewModel();
+                    await navigationService.NavigateOnMaster("UbicationsView");
                     break;
             }
         }

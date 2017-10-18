@@ -34,6 +34,8 @@
         public ProductsViewModel Products { get; set; }
 
         public TokenResponse Token { get; set; }
+
+        public UbicationsViewModel Ubications { get; set; }
         #endregion
 
         #region Constructors
