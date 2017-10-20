@@ -53,6 +53,10 @@
         {
             switch (pageName)
             {
+                case "LoginFacebookView":
+                    await Application.Current.MainPage.Navigation.PushAsync(
+                        new LoginFacebookView());
+                    break;
                 case "NewCustomerView":
                     await Application.Current.MainPage.Navigation.PushAsync(
                         new NewCustomerView());

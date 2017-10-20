@@ -5,6 +5,7 @@
     using System.ComponentModel;
     using System.Windows.Input;
     using System;
+    using Xamarin.Forms;
 
     public class LoginViewModel : INotifyPropertyChanged
     {
@@ -168,8 +169,10 @@
                 return;
             }
 
+            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
+
             var response = await apiService.GetToken(
-                "http://apiproducts.azurewebsites.net",
+                urlAPI,
                 Email,
                 Password);
 
@@ -205,6 +208,13 @@
 
             IsRunning = false;
             IsEnabled = true;
+        }
+
+        public ICommand LoginWithFacebookCommand { get { return new RelayCommand(LoginWithFacebook); } }
+
+        async void LoginWithFacebook()
+        {
+            await navigationService.NavigateOnLogin("LoginFacebookView");
         }
 
         public ICommand RegisterCommand { get { return new RelayCommand(Register); } }

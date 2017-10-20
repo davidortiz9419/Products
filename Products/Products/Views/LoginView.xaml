@@ -74,7 +74,7 @@
                     </Entry>
                 </Grid>
                 <StackLayout
-                    HorizontalOptions="End"
+                    HorizontalOptions="Center"
                     Orientation="Horizontal">
                     <Label
                         Text="Rememberme "
@@ -121,7 +121,7 @@
                         TextColor="{StaticResource BackgroundColor}">
                     </Button>
                     <Button
-                        BackgroundColor="{StaticResource MainColor}"
+                        BackgroundColor="Blue"
                         BorderRadius="23"
                         Command="{Binding LoginWithFacebookCommand}"
                         FontAttributes="Bold"

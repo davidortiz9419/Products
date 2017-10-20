@@ -10,6 +10,7 @@
     using GalaSoft.MvvmLight.Command;
     using System;
     using System.Threading.Tasks;
+    using Xamarin.Forms;
 
     public class CategoriesViewModel : INotifyPropertyChanged
     {
@@ -26,6 +27,7 @@
         bool _isRefreshing;
         List<Category> categories;
         ObservableCollection<Category> _categories;
+        string _filter;
         #endregion
 
         #region Properties
@@ -61,6 +63,25 @@
                     PropertyChanged?.Invoke(
                         this,
                         new PropertyChangedEventArgs(nameof(Categories)));
+                }
+            }
+        }
+
+        public string Filter
+        {
+            get
+            {
+                return _filter;
+            }
+            set
+            {
+                if (_filter != value)
+                {
+                    _filter = value;
+                    Search();
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(Filter)));
                 }
             }
         }
@@ -115,9 +136,10 @@
             }
 
             var mainViewModel = MainViewModel.GetInstance();
+            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
 
             var response = await apiService.Delete(
-                "http://apiproducts.azurewebsites.net",
+                urlAPI,
                 "/api",
                 "/Categories",
                 mainViewModel.Token.TokenType,
@@ -152,8 +174,9 @@
             }
 
             var mainViewModel = MainViewModel.GetInstance();
+            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
             var response = await apiService.GetList<Category>(
-                "http://apiproducts.azurewebsites.net",
+                urlAPI,
                 "/api",
                 "/Categories",
                 mainViewModel.Token.TokenType,
@@ -187,6 +210,27 @@
 
         #region Commands
         public ICommand RefreshCommand { get { return new RelayCommand(LoadCategories); }  }
+
+        public ICommand SearchCommand { get { return new RelayCommand(Search); } }
+
+        void Search()
+        {
+            IsRefreshing = true;
+
+            if (string.IsNullOrEmpty(Filter))
+            {
+                Categories = new ObservableCollection<Category>(
+                    categories.OrderBy(c => c.Description));
+            }
+            else
+            {
+                Categories = new ObservableCollection<Category>(categories
+                    .Where(c => c.Description.ToLower().Contains(Filter.ToLower()))
+                    .OrderBy(c => c.Description));
+            }
+
+            IsRefreshing = false;
+        }
         #endregion
     }
 }

@@ -7,6 +7,7 @@
     using Helpers;
     using Models;
     using Services;
+    using Xamarin.Forms;
 
     public class NewCustomerViewModel : INotifyPropertyChanged
     {
@@ -169,6 +170,7 @@
                 return;
             }
 
+            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
             var customer = new Customer
             {
                 Address = Address,
@@ -181,7 +183,7 @@
             };
 
             var response = await apiService.Post(
-                "http://apiproducts.azurewebsites.net",
+                urlAPI,
                 "/api",
                 "/Customers",
                 customer);
@@ -197,7 +199,7 @@
             }
 
             var response2 = await apiService.GetToken(
-                "http://apiproducts.azurewebsites.net",
+                urlAPI,
                 Email,
                 Password);
 

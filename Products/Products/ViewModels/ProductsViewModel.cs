@@ -1,5 +1,6 @@
 ﻿namespace Products.ViewModels
 {
+    using GalaSoft.MvvmLight.Command;
     using Models;
     using Services;
     using System.Collections.Generic;
@@ -7,6 +8,8 @@
     using System.ComponentModel;
     using System.Linq;
     using System.Threading.Tasks;
+    using System.Windows.Input;
+    using Xamarin.Forms;
 
     public class ProductsViewModel : INotifyPropertyChanged
     {
@@ -23,6 +26,7 @@
         bool _isRefreshing;
         List<Product> products;
         ObservableCollection<Product> _products;
+        string _filter;
         #endregion
 
         #region Properties
@@ -58,6 +62,25 @@
                     PropertyChanged?.Invoke(
                         this,
                         new PropertyChangedEventArgs(nameof(Products)));
+                }
+            }
+        }
+
+        public string Filter
+        {
+            get
+            {
+                return _filter;
+            }
+            set
+            {
+                if (_filter != value)
+                {
+                    _filter = value;
+                    Search();
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(Filter)));
                 }
             }
         }
@@ -109,9 +132,10 @@
             }
 
             var mainViewModel = MainViewModel.GetInstance();
+            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
 
             var response = await apiService.Delete(
-                "http://apiproducts.azurewebsites.net",
+                urlAPI,
                 "/api",
                 "/Products",
                 mainViewModel.Token.TokenType,
@@ -142,6 +166,29 @@
             oldProduct = product;
             Products = new ObservableCollection<Product>(
                 products.OrderBy(c => c.Description));
+            IsRefreshing = false;
+        }
+        #endregion
+
+        #region Commands
+        public ICommand SearchCommand { get { return new RelayCommand(Search); } }
+
+        void Search()
+        {
+            IsRefreshing = true;
+
+            if (string.IsNullOrEmpty(Filter))
+            {
+                Products = new ObservableCollection<Product>(
+                    products.OrderBy(c => c.Description));
+            }
+            else
+            {
+                Products = new ObservableCollection<Product>(products
+                    .Where(c => c.Description.ToLower().Contains(Filter.ToLower()))
+                    .OrderBy(c => c.Description));
+            }
+
             IsRefreshing = false;
         }
         #endregion

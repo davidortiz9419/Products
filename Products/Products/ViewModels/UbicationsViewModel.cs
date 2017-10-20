@@ -6,6 +6,7 @@
     using Models;
     using Services;
     using Xamarin.Forms.Maps;
+    using Xamarin.Forms;
 
     public class UbicationsViewModel
     {
@@ -54,9 +55,10 @@
             }
 
             var mainViewModel = MainViewModel.GetInstance();
+            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
 
             var response = await apiService.GetList<Ubication>(
-                "http://apiproducts.azurewebsites.net",
+                urlAPI,
                 "/api",
                 "/Ubications",
                 mainViewModel.Token.TokenType,

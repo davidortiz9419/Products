@@ -270,6 +270,7 @@
             }
 
             var mainViewModel = MainViewModel.GetInstance();
+            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
 
             byte[] imageArray = null;
             if (file != null)
@@ -287,7 +288,7 @@
             product.ImageArray = imageArray;
 
             var response = await apiService.Put(
-                "http://apiproducts.azurewebsites.net",
+                urlAPI,
                 "/api",
                 "/Products",
                 mainViewModel.Token.TokenType,

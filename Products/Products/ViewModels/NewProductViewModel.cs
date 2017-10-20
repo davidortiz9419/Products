@@ -229,6 +229,7 @@
             }
 
             var mainViewModel = MainViewModel.GetInstance();
+            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
 
             var product = new Product
             {
@@ -243,7 +244,7 @@
             };
 
             var response = await apiService.Post(
-                "http://apiproducts.azurewebsites.net",
+                urlAPI,
                 "/api",
                 "/Products",
                 mainViewModel.Token.TokenType,

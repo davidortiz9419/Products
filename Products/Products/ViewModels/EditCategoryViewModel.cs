@@ -5,6 +5,7 @@
     using Services;
     using System.ComponentModel;
     using System.Windows.Input;
+    using Xamarin.Forms;
 
     public class EditCategoryViewModel : INotifyPropertyChanged
     {
@@ -107,9 +108,10 @@
 
             category.Description = Description;
             var mainViewModel = MainViewModel.GetInstance();
+            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
 
             var response = await apiService.Put(
-                "http://apiproducts.azurewebsites.net",
+                urlAPI,
                 "/api",
                 "/Categories",
                 mainViewModel.Token.TokenType,
