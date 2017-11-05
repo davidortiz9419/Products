@@ -139,6 +139,8 @@
                 .ToList();
             if(products.Count == 0)
             {
+                IsRunning = false;
+                IsEnabled = true;
                 await dialogService.ShowMessage(
                     "Error",
                     "There are not products to sync.");
