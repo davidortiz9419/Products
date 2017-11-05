@@ -8,6 +8,7 @@
     public class Menu
     {
         #region Services
+        DataService dataService;
         NavigationService navigationService;
         #endregion
 
@@ -22,6 +23,7 @@
         #region Constructors
         public Menu()
         {
+            dataService = new DataService();
             navigationService = new NavigationService();
         }
         #endregion
@@ -34,12 +36,23 @@
             switch (PageName)
             {
                 case "LoginView":
-                    MainViewModel.GetInstance().Login = new LoginViewModel();
-                    navigationService.SetMainPage("LoginView");
+                    var mainViewModel = MainViewModel.GetInstance();
+                    mainViewModel.Token.IsRemembered = false;
+                    dataService.Update(mainViewModel.Token);
+                    mainViewModel.Login = new LoginViewModel();
+                    navigationService.SetMainPage(PageName);
+                    break;
+                case "MyProfileView":
+                    MainViewModel.GetInstance().MyProfile = new MyProfileViewModel();
+                    await navigationService.NavigateOnMaster(PageName);
+                    break;
+                case "SyncView":
+                    MainViewModel.GetInstance().Sync = new SyncViewModel();
+                    await navigationService.NavigateOnMaster(PageName);
                     break;
                 case "UbicationsView":
                     MainViewModel.GetInstance().Ubications = new UbicationsViewModel();
-                    await navigationService.NavigateOnMaster("UbicationsView");
+                    await navigationService.NavigateOnMaster(PageName);
                     break;
             }
         }

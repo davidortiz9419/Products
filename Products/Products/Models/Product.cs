@@ -2,6 +2,8 @@
 {
     using GalaSoft.MvvmLight.Command;
     using Services;
+    using SQLite.Net.Attributes;
+    using SQLiteNetExtensions.Attributes;
     using System;
     using System.Windows.Input;
     using ViewModels;
@@ -13,8 +15,10 @@
         #endregion
 
         #region Properties
+        [PrimaryKey, AutoIncrement]
         public int ProductId { get; set; }
 
+        [ForeignKey(typeof(Category))]
         public int CategoryId { get; set; }
 
         public string Description { get; set; }
@@ -33,6 +37,11 @@
 
         public byte[] ImageArray { get; set; }
 
+        [ManyToOne]
+        public Category Category { get; set; }
+
+        public bool PendingToSave { get; set; }
+
         public string ImageFullPath
         {
             get
@@ -48,7 +57,6 @@
             }
         }
         #endregion
-
 
         #region Constructors
         public Product()

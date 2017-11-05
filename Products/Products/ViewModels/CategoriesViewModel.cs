@@ -20,6 +20,7 @@
 
         #region Services
         ApiService apiService;
+        DataService dataService;
         DialogService dialogService;
         #endregion
 
@@ -93,6 +94,7 @@
             instance = this;
 
             apiService = new ApiService();
+            dataService = new DataService();
             dialogService = new DialogService();
 
             LoadCategories();
@@ -166,34 +168,54 @@
             var connection = await apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                IsRefreshing = false;
-                await dialogService.ShowMessage(
-                    "Error",
-                    connection.Message);
-                return;
+                categories = dataService.Get<Category>(true);
+                if (categories.Count == 0)
+                {
+                    IsRefreshing = false;
+                    await dialogService.ShowMessage(
+                        "Error",
+                        "Dear user, YAPE");
+                    return;
+                }
             }
-
-            var mainViewModel = MainViewModel.GetInstance();
-            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
-            var response = await apiService.GetList<Category>(
-                urlAPI,
-                "/api",
-                "/Categories",
-                mainViewModel.Token.TokenType,
-                mainViewModel.Token.AccessToken);
-
-            if (!response.IsSuccess)
+            else
             {
-                IsRefreshing = false;
-                await dialogService.ShowMessage(
-                    "Error",
-                    response.Message);
-                return;
-            }
+                var mainViewModel = MainViewModel.GetInstance();
+                var urlAPI = Application.Current.Resources["URLAPI"].ToString();
 
-            categories = (List<Category>)response.Result;
-            Categories = new ObservableCollection<Category>(categories.OrderBy(c => c.Description));
+                var response = await apiService.GetList<Category>(
+                    urlAPI,
+                    "/api",
+                    "/Categories",
+                    mainViewModel.Token.TokenType,
+                    mainViewModel.Token.AccessToken);
+
+                if (!response.IsSuccess)
+                {
+                    IsRefreshing = false;
+                    await dialogService.ShowMessage(
+                        "Error",
+                        response.Message);
+                    return;
+                }
+
+                categories = (List<Category>)response.Result;
+                SaveCategoriesOnDB();
+            }
+            
+            Search();
             IsRefreshing = false;
+
+            void SaveCategoriesOnDB()
+            {
+                dataService.DeleteAll<Category>();
+
+                foreach (var category in categories)
+                {
+                    dataService.Insert(category);
+                    dataService.Save(category.Products);
+                }
+            }
         }
 
         public void Update(Category category)

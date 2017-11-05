@@ -1,12 +1,12 @@
 ﻿namespace Products.ViewModels
 {
+    using Models;
+    using Services;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Threading.Tasks;
-    using Models;
-    using Services;
-    using Xamarin.Forms.Maps;
     using Xamarin.Forms;
+    using Xamarin.Forms.Maps;
 
     public class UbicationsViewModel
     {
@@ -18,6 +18,7 @@
         #region Properties
         public ObservableCollection<Pin> Pins { get; set; }
         #endregion
+
         #region Constructors
         public UbicationsViewModel()
         {

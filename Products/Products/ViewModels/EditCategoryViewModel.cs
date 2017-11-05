@@ -15,9 +15,9 @@
 
         #region Services
         ApiService apiService;
-        #endregion
         DialogService dialogService;
         NavigationService navigationService;
+        #endregion
 
         #region Attributes
         bool _isEnabled;

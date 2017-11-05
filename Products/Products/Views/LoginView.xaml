@@ -46,6 +46,7 @@
                         Keyboard="Email"
                         Placeholder="Enter your email..."
                         Text="{Binding Email, Mode=TwoWay}"
+                        TextColor="{StaticResource FontColor}"
                         VerticalOptions="Center">
                     </Entry>
                 </Grid>
@@ -70,6 +71,7 @@
                         IsPassword="True"
                         Placeholder="Enter your password..."
                         Text="{Binding Password, Mode=TwoWay}"
+                        TextColor="{StaticResource FontColor}"
                         VerticalOptions="Center">
                     </Entry>
                 </Grid>
@@ -91,7 +93,7 @@
                     TextColor="{StaticResource MainColor}">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer
-                            Command="{Binding RecoveryPasswordCommand}">
+                            Command="{Binding PasswordRecoveryCommand}">
                         </TapGestureRecognizer>
                     </Label.GestureRecognizers>
                 </Label>

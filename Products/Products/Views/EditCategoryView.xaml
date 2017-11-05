@@ -19,6 +19,7 @@
                 <Entry
                     Placeholder="Enter category description..."
                     Text="{Binding Description, Mode=TwoWay}"
+                    TextColor="{StaticResource FontColor}"
                     HorizontalOptions="FillAndExpand">
                 </Entry>
                 <ActivityIndicator
@@ -26,7 +27,7 @@
                     VerticalOptions="CenterAndExpand">
                 </ActivityIndicator>
                 <Button
-                    BackgroundColor="{StaticResource MainColor}"
+                    BackgroundColor="{StaticResource AccentColor1}"
                     BorderRadius="23"
                     Command="{Binding SaveCommand}"
                     FontAttributes="Bold"

@@ -17,7 +17,8 @@
                 </Label>
                 <Entry
                     Placeholder="Enter product description..."
-                    Text="{Binding Description, Mode=TwoWay}">
+                    Text="{Binding Description, Mode=TwoWay}"
+                    TextColor="{StaticResource FontColor}">
                 </Entry>
 
                 <Label
@@ -27,7 +28,8 @@
                 <Entry
                     Keyboard="Numeric"
                     Placeholder="Enter product price..."
-                    Text="{Binding Price, Mode=TwoWay}">
+                    Text="{Binding Price, Mode=TwoWay}"
+                    TextColor="{StaticResource FontColor}">
                 </Entry>
                 <StackLayout
                     Orientation="Horizontal">
@@ -64,7 +66,8 @@
                     TextColor="{StaticResource FontColor}">
                 </Label>
                 <Entry
-                    Text="{Binding Remarks, Mode=TwoWay}">
+                    Text="{Binding Remarks, Mode=TwoWay}"
+                    TextColor="{StaticResource FontColor}">
                 </Entry>
                 <Image
                     HeightRequest="200"
@@ -85,7 +88,7 @@
                     VerticalOptions="CenterAndExpand">
                 </ActivityIndicator>
                 <Button
-                    BackgroundColor="{StaticResource MainColor}"
+                    BackgroundColor="{StaticResource AccentColor1}"
                     BorderRadius="23"
                     Command="{Binding SaveCommand}"
                     FontAttributes="Bold"

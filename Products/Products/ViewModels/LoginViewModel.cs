@@ -4,7 +4,6 @@
     using Services;
     using System.ComponentModel;
     using System.Windows.Input;
-    using System;
     using Xamarin.Forms;
 
     public class LoginViewModel : INotifyPropertyChanged
@@ -15,6 +14,7 @@
 
         #region Services
         ApiService apiService;
+        DataService dataService;
         DialogService dialogService;
         NavigationService navigationService;
         #endregion
@@ -123,11 +123,9 @@
         public LoginViewModel()
         {
             apiService = new ApiService();
+            dataService = new DataService();
             dialogService = new DialogService();
             navigationService = new NavigationService();
-
-            Email = "juandavidortiz07@hotmail.com";
-            Password = "adm8020";
 
             IsEnabled = true;
             IsToggled = true;
@@ -198,8 +196,13 @@
                 return;
             }
 
+            response.IsRemembered = IsToggled;
+            response.Password = Password;
+            dataService.DeleteAllAndInsert(response);
+
             var mainViewModel = MainViewModel.GetInstance();
             mainViewModel.Token = response;
+            mainViewModel.RegisterDevice();
             mainViewModel.Categories = new CategoriesViewModel();
             navigationService.SetMainPage("MasterView");
 
@@ -215,6 +218,15 @@
         async void LoginWithFacebook()
         {
             await navigationService.NavigateOnLogin("LoginFacebookView");
+        }
+
+        public ICommand PasswordRecoveryCommand { get { return new RelayCommand(PasswordRecovery); } }
+
+        async void PasswordRecovery()
+        {
+            MainViewModel.GetInstance().PasswordRecovery =
+            new PasswordRecoveryViewModel();
+            await navigationService.NavigateOnLogin("PasswordRecoveryView");
         }
 
         public ICommand RegisterCommand { get { return new RelayCommand(Register); } }

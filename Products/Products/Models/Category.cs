@@ -2,6 +2,8 @@
 {
     using GalaSoft.MvvmLight.Command;
     using Services;
+    using SQLite.Net.Attributes;
+    using SQLiteNetExtensions.Attributes;
     using System.Collections.Generic;
     using System.Windows.Input;
     using ViewModels;
@@ -14,10 +16,12 @@
         #endregion
 
         #region Properties
+        [PrimaryKey]
         public int CategoryId { get; set; }
 
         public string Description { get; set; }
 
+        [OneToMany(CascadeOperations = CascadeOperation.All)]
         public List<Product> Products { get; set; }
         #endregion
 

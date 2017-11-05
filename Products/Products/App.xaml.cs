@@ -11,8 +11,11 @@
     {
         #region Services
         ApiService apiService;
+        DataService dataService;
         DialogService dialogService;
+        NavigationService navigationService;
         #endregion
+
         #region Properties
         public static NavigationPage Navigator { get; internal set; }
         public static MasterView Master { get; internal set; }
@@ -24,9 +27,25 @@
             InitializeComponent();
 
             apiService = new ApiService();
+            dataService = new DataService();
             dialogService = new DialogService();
+            navigationService = new NavigationService();
 
-            MainPage = new NavigationPage(new LoginView());
+            var token = dataService.First<TokenResponse>(false);
+            if (token != null &&
+                token.IsRemembered &&
+                token.Expires > DateTime.Now)
+            {
+                var mainViewModel = MainViewModel.GetInstance();
+                mainViewModel.Token = token;
+                mainViewModel.RegisterDevice();
+                mainViewModel.Categories = new CategoriesViewModel();
+                navigationService.SetMainPage("MasterView");
+            }
+            else
+            {
+                navigationService.SetMainPage("LoginView");
+            }
         }
         #endregion
 
@@ -91,6 +110,7 @@
 
             var mainViewModel = MainViewModel.GetInstance();
             mainViewModel.Token = token;
+            mainViewModel.RegisterDevice();
             mainViewModel.Categories = new CategoriesViewModel();
             Current.MainPage = new MasterView();
         }

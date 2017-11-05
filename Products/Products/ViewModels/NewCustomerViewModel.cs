@@ -1,12 +1,11 @@
 ﻿namespace Products.ViewModels
 {
-    using System;
-    using System.ComponentModel;
-    using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
     using Models;
     using Services;
+    using System.ComponentModel;
+    using System.Windows.Input;
     using Xamarin.Forms;
 
     public class NewCustomerViewModel : INotifyPropertyChanged
@@ -227,6 +226,7 @@
 
             var mainViewModel = MainViewModel.GetInstance();
             mainViewModel.Token = response2;
+            mainViewModel.RegisterDevice();
             mainViewModel.Categories = new CategoriesViewModel();
             await navigationService.BackOnLogin();
             navigationService.SetMainPage("MasterView");

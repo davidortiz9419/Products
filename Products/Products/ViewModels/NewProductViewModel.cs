@@ -19,6 +19,7 @@
 
         #region Services
         ApiService apiService;
+        DataService dataService;
         DialogService dialogService;
         NavigationService navigationService;
         #endregion
@@ -103,6 +104,7 @@
         public NewProductViewModel()
         {
             apiService = new ApiService();
+            dataService = new DataService();
             dialogService = new DialogService();
             navigationService = new NavigationService();
 
@@ -164,7 +166,7 @@
         }
 
         public ICommand SaveCommand { get { return new RelayCommand(Save); } }
-        
+
         async void Save()
         {
             if (string.IsNullOrEmpty(Description))
@@ -212,15 +214,6 @@
             IsRunning = true;
             IsEnabled = false;
 
-            var connection = await apiService.CheckConnection();
-            if (!connection.IsSuccess)
-            {
-                IsRunning = false;
-                IsEnabled = true;
-                await dialogService.ShowMessage("Error", connection.Message);
-                return;
-            }
-
             byte[] imageArray = null;
             if (file != null)
             {
@@ -243,7 +236,19 @@
                 Stock = stock,
             };
 
-            var response = await apiService.Post(
+            var connection = await apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                product.PendingToSave = true;
+                dataService.Insert(product);
+                await dialogService.ShowMessage(
+                    "Message",
+                    "The product was save local DB don't forget to" +
+                    "upload the record when you have WiFi.");
+            }
+            else
+            {
+                var response = await apiService.Post(
                 urlAPI,
                 "/api",
                 "/Products",
@@ -251,17 +256,19 @@
                 mainViewModel.Token.AccessToken,
                 product);
 
-            if (!response.IsSuccess)
-            {
-                IsRunning = false;
-                IsEnabled = true;
-                await dialogService.ShowMessage(
-                    "Error",
-                    response.Message);
-                return;
-            }
+                if (!response.IsSuccess)
+                {
+                    IsRunning = false;
+                    IsEnabled = true;
+                    await dialogService.ShowMessage(
+                        "Error",
+                        response.Message);
+                    return;
+                }
 
-            product = (Product)response.Result;
+                product = (Product)response.Result;
+            }
+            
             var productsViewModel = ProductsViewModel.GetInstance();
             productsViewModel.Add(product);
 

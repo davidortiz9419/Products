@@ -1,10 +1,12 @@
 ﻿namespace Products.ViewModels
 {
     using GalaSoft.MvvmLight.Command;
+    using Interfaces;
     using Models;
     using Services;
     using System.Collections.ObjectModel;
     using System.Windows.Input;
+    using Xamarin.Forms;
 
     public class MainViewModel
     {
@@ -23,6 +25,8 @@
 
         public LoginViewModel Login { get; set; }
 
+        public MyProfileViewModel MyProfile { get; set; }
+
         public NewCategoryViewModel NewCategory { get; set; }
 
         public NewCustomerViewModel NewCustomer { get; set; }
@@ -31,7 +35,11 @@
 
         public ObservableCollection<Menu> MyMenu { get; set; }
 
+        public PasswordRecoveryViewModel PasswordRecovery { get; set; }
+
         public ProductsViewModel Products { get; set; }
+
+        public SyncViewModel Sync { get; set; }
 
         public TokenResponse Token { get; set; }
 
@@ -82,13 +90,26 @@
                 PageName = "MyProfileView",
                 Title = "My Profile",
             });
-           
+
+            MyMenu.Add(new Menu
+            {
+                Icon = "ic_sync",
+                PageName ="SyncView",
+                Title = "Sync Offline Operations",
+            });
+
             MyMenu.Add(new Menu
             {
                 Icon = "ic_exit_to_app",
                 PageName = "LoginView",
                 Title = "Close Sesion",
             });
+        }
+
+        public void RegisterDevice()
+        {
+            var register = DependencyService.Get<IRegisterDevice>();
+            register.RegisterDevice();
         }
         #endregion
 
